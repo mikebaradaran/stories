@@ -5,7 +5,7 @@ pre{
 }
 line {
   display:block;
-  border-top: 5px solid blue;
+  border-top: 5px groove blue;
   height:0.1em;
 }
 a{
