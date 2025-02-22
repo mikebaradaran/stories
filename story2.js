@@ -1,0 +1,24 @@
+var lines = `The big fox ran. <icon>🦊</icon >
+The sun was hot. <icon>🌅</icon>
+<hr />
+The fox saw two red hats <icon>👒⛑️</icon>
+One hat for you <icon>⛑️</icon>
+the fox said <icon>🎩</icon>
+One hat for me!
+<hr />
+The fox put his hat on<icon> 🦊⛑️</icon>
+The hat was too big! <icon>⛑️</icon>
+Oh no!
+<hr />
+The hat hid his eye. <icon>😵‍💫</icon>
+The fox ran and hit a log
+<icon>🌴🦊</icon>
+<hr />
+Are you OK? a cat said. <icon>😽</icon>
+Yes, but my hat is not!
+The fox sat and cut the hat. <icon>✂️</icon>
+<hr />
+Now it is fit!  <icon>👍🏻</icon>
+The fox was so happy! <icon>😆🙌🏻</icon>
+The end! <icon>🔚</icon>
+`;

@@ -1,52 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kids 3</title>
-    <link rel="stylesheet" href="/style.css" />
-    <style>
-        div:hover{
-            background-color:lightcyan;
-            font-weight:bold;
-          font-size:x-large;
-          box-shadow:2px 2px 2px black;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css" />
+    <style></style>
 </head>
 <body>
-    <h2>Story of Kimberly and Lorenzo</h2>
+    <h4>(touch each line to highlight)</h4>
+    <h2>Fox and two red hats</h2>
     <p id="content"></p>
-
-
-    <script>
-        var lines = `Kimberly and Lorenzo go out
-The sun is hot. <icon>🌄</icon>
-Oh no! <icon>☀️🥵</icon>
-<hr />
-Kimberly and Lorenzo run to the big house <icon>🏠</icon>
-<hr />
-Lorenzo has a hat <icon>👒</icon>
-Kimberly has a fan <icon>🪭</icon>
-The fan is fun! <icon>🎉😁</icon>
-<hr />
-Kimberly and Lorenzo hop and jog <icon>🏃🏻‍♂️🏃🏻‍♀️</icon>
-A dog can hop too!<icon>🐕🐶🐕‍🦺</icon>
-The dog go to the house <icon>🏠</icon>
-<hr />
-Kimberly and Lorenzo and the dog nap <icon>😴😪🛌🏻</icon>
-The end! <icon> 🔚</icon>
-`;
-        lines = lines.split("\n");
-        let container = document.getElementById("content");
-
-        for (let line of lines) {
-            let div = document.createElement("div");
-            div.innerHTML = line;
-            container.appendChild(div);
-        }
-    </script>
-
+    <script src="story3.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
