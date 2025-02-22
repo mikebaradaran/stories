@@ -1,13 +1,13 @@
-pre{
+/* pre{
   font-size:x-large;
   font-weight:bold;
   font-family: "Courier New";
-}
-line {
+} */
+/* line {
   display:block;
   border-top: 5px groove blue;
   height:0.1em;
-}
+} */
 a{
   display:block;
   margin:5px;
