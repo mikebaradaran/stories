@@ -1,19 +1,18 @@
-/* pre{
-  font-size:x-large;
-  font-weight:bold;
-  font-family: "Courier New";
-} */
-/* line {
-  display:block;
-  border-top: 5px groove blue;
-  height:0.1em;
-} */
-a{
-  display:block;
-  margin:5px;
-  font-size:large;
+a {
+  display: block;
+  margin: 5px;
+  font-size: large;
 }
-icon{
+/* icon{
   display:inline-block;
-  font-size:xx-large;
+  font-size:x-large;
+} */
+#content{
+  font-size: x-large;
+}
+div:hover {
+  background-color: lightcyan;
+  font-weight: bold;
+  font-size: x-large;
+  box-shadow: 2px 2px 2px black;
 }
