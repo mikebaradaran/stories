@@ -3,16 +3,12 @@ a {
   margin: 5px;
   font-size: large;
 }
-/* icon{
-  display:inline-block;
-  font-size:x-large;
-} */
 #content{
   font-size: x-large;
 }
 div:hover {
   background-color: lightcyan;
   font-weight: bold;
-  font-size: x-large;
-  box-shadow: 2px 2px 2px black;
+  /* font-size: larger; */
+  /* box-shadow: 2px 2px 2px black; */
 }
