@@ -20,4 +20,17 @@ A little puff of sparkles filled the room, and everyone gave a tiny cough cough!
 
 They all laughed, then cuddled up again. This time, Bella used just a little magic, and soon, everyone was fast asleep… dreaming of unicorns, pancakes, and flying kittens.
 
-The End.`;
+The End.
+
+Orinanal story by Kimberlu:
+There was once a princess called Bella.
+And Lorenzo was with her. And they had sleep over in the house. 
+Kimberly was a little princess and she was a good friend of Bella.
+Kimberly was also coming to the sleep over.
+They all want to sleep.
+Kimberly had to brush her teeth before going to sleep. 
+Must brush side to side.
+Bella helped them to sleep by using magic. And they coughed because she too much magic power.
+
+`;
+
