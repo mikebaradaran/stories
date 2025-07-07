@@ -24,13 +24,12 @@ The End.
 
 Orinanal story by Kimberly:
 There was once a princess called Bella.
-And Lorenzo was with her. And they had sleep over in the house. 
+And Lorenzo was with her. And they had sleepover in the house. 
 Kimberly was a little princess and she was a good friend of Bella.
 Kimberly was also coming to the sleep over.
 They all want to sleep.
 Kimberly had to brush her teeth before going to sleep. 
 Must brush side to side.
-Bella helped them to sleep by using magic. And they coughed because she too much magic power.
-
+Bella helped them to sleep by using magic. And they coughed because she used too much magic power.
 `;
 
