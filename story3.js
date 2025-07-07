@@ -22,7 +22,7 @@ They all laughed, then cuddled up again. This time, Bella used just a little mag
 
 The End.
 
-Orinanal story by Kimberlu:
+Orinanal story by Kimberly:
 There was once a princess called Bella.
 And Lorenzo was with her. And they had sleep over in the house. 
 Kimberly was a little princess and she was a good friend of Bella.
