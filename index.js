@@ -32,7 +32,7 @@ function displayStory(storyFile) {
       lines = data.split("\n");
       for (let line of lines) {
         let div = document.createElement("div");
-        div.innerHTML = line;
+        div.innerHTML = addIconTagaroundEmojis(line);
         story.appendChild(div);
 
         if (line.trim() === "") {
@@ -60,6 +60,9 @@ function removeEmojis(str) {
   return str.replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '');
 }
 
+function addIconTagaroundEmojis(text) {
+  return text.replace(/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu, '<icon>$&</icon>');
+}
 function talk(text) {
   const msg = new SpeechSynthesisUtterance(text);
 

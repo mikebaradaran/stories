@@ -4,7 +4,7 @@ a {
   font-size: large;
 }
 #content{
-  font-size: x-large;
+  font-size: 50px;
 }
 div:hover {
   background-color: lightcyan;
@@ -14,4 +14,9 @@ div:hover {
 }
 button{
   margin-left:10px;
+  border-radius: 50%;
+}
+
+icon{
+  font-size: x-large;
 }

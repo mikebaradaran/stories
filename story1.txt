@@ -1,17 +1,17 @@
 Kimberly and Lorenzo go out
-The sun is hot. <icon>🌄</icon>
-    Oh no! <icon>☀️🥵</icon>
+The sun is hot. 🌄
+    Oh no! ☀️🥵
     <hr />
-    Kimberly and Lorenzo run to the big house <icon>🏠</icon>
+    Kimberly and Lorenzo run to the big house 🏠
     <hr />
-    Lorenzo has a hat <icon>👒</icon>
-    Kimberly has a fan <icon>🪭</icon>
-    The fan is fun! <icon>🎉😁</icon>
+    Lorenzo has a hat 👒
+    Kimberly has a fan 🪭
+    The fan is fun! 🎉😁
     <hr />
-    Kimberly and Lorenzo hop and jog <icon>🏃🏻‍♂️🏃🏻‍♀️</icon>
-    A dog can hop too!<icon>🐕🐶🐕‍🦺</icon>
-    The dog go to the house <icon>🏠</icon>
+    Kimberly and Lorenzo hop and jog 🏃🏻‍♂️🏃🏻‍♀️
+    A dog can hop too!🐕🐶🐕‍🦺
+    The dog go to the house 🏠
     <hr />
-    Kimberly and Lorenzo and the dog nap <icon>😴😪🛌🏻</icon>
-    The end! <icon> 🔚</icon>
-    `;
+    Kimberly and Lorenzo and the dog nap 😴😪🛌🏻
+    The end!  🔚
+
