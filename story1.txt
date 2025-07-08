@@ -1,4 +1,4 @@
-var lines = `Kimberly and Lorenzo go out
+Kimberly and Lorenzo go out
 The sun is hot. <icon>🌄</icon>
     Oh no! <icon>☀️🥵</icon>
     <hr />

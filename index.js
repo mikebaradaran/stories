@@ -1,50 +1,57 @@
-lines = lines.split("\n");
+// File: index.js
+
+fetch("titles.txt")
+  .then((response) => response.text())
+  .then((lines) => {
+    displayTitles(lines);
+  });
+
 let container = document.getElementById("content");
+let story = document.getElementById("story");
 
-for (let line of lines) {
-  let div = document.createElement("div");
-  div.innerHTML = line;
-  container.appendChild(div);
+function displayTitles(lines) {
+  lines = lines.split("\n");
+  container.innerHTML = ""; // Clear previous content
 
-  if(line.trim() === "") {
-    div.style.height = "1em"; 
-    continue; // Skip empty lines
+  for (let index = 0; index < lines.length; index++) {
+    line = lines[index].trim();
+    if (line === "") continue; // Skip empty lines
+    let a = document.createElement("a");
+    let x = lines[index].split("~");
+    console.log(x);
+    a.innerText = x[1];
+    a.href = `javascript:displayStory('${x[0]}')`;
+    container.appendChild(a);
   }
-  let btnRead = document.createElement("button");
-  btnRead.innerHTML = "🗣️";
-  div.appendChild(btnRead);
-  btnRead.addEventListener("click", () => speak(line));
 }
+
+function displayStory(storyFile) {
+  story.innerHTML = ""; // Clear previous story content
+  fetch(storyFile)
+    .then((response) => response.text())
+    .then((data) => {
+      lines = data.split("\n");
+      for (let line of lines) {
+        let div = document.createElement("div");
+        div.innerHTML = line;
+        story.appendChild(div);
+
+        if (line.trim() === "") {
+          div.style.height = "1em";
+          continue; // Skip empty lines
+        }
+        let btnRead = document.createElement("button");
+        btnRead.innerHTML = "🗣️";
+        div.appendChild(btnRead);
+        btnRead.addEventListener("click", () => speak(line));
+      }
+    });
+}
+
+
 function speak(text) {
   text = text.split("<icon>")[0].trim();
   const speech = new SpeechSynthesisUtterance(text);
   speechSynthesis.speak(speech);
 }
 
-function speakWoman(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-
-  function setVoice() {
-    const voices = speechSynthesis.getVoices();
-    console.log(
-      "Available voices:",
-      voices.map((v) => v.name)
-    ); // Debugging: Log all voices
-
-    // Try to find a female voice
-    const femaleVoice = voices.find(
-      (voice) =>
-        voice.name.toLowerCase().includes("female") ||
-        voice.name.toLowerCase().includes("woman") ||
-        voice.name.toLowerCase().includes("samantha") // Common female voice in macOS
-    );
-
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
-    } else {
-      console.warn("No female voice found, using default.");
-    }
-
-    speechSynthesis.speak(utterance);
-  }
-}

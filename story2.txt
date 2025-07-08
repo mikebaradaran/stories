@@ -1,4 +1,4 @@
-var lines = `The big fox ran. <icon>🦊</icon >
+The big fox ran. <icon>🦊</icon >
 The sun was hot. <icon>🌅</icon>
 <hr />
 The fox saw two red hats <icon>👒⛑️</icon>
@@ -21,4 +21,3 @@ The fox sat and cut the hat. <icon>✂️</icon>
 Now it is fit!  <icon>👍🏻</icon>
 The fox was so happy! <icon>😆🙌🏻</icon>
 The end! <icon>🔚</icon>
-`;

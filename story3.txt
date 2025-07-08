@@ -1,4 +1,4 @@
-var lines=`Once upon a time, in a sparkly kingdom with clouds made of marshmallows, there was a kind and lovely princess named Bella.
+Once upon a time, in a sparkly kingdom with clouds made of marshmallows, there was a kind and lovely princess named Bella.
 
 Princess Bella was having a sleepover at her cosy castle. Her best friend Lorenzo was already there, wearing his soft pajamas and holding his favourite teddy bear.
 
@@ -31,5 +31,5 @@ They all want to sleep.
 Kimberly had to brush her teeth before going to sleep. 
 Must brush side to side.
 Bella helped them to sleep by using magic. And they coughed because she used too much magic power.
-`;
+
 
