@@ -43,6 +43,7 @@ function displayStory(storyFile) {
         btnRead.innerHTML = "🗣️";
         div.appendChild(btnRead);
         btnRead.addEventListener("click", () => speak(line));
+        div.addEventListener("click", () => speak(line));
       }
     });
 }
