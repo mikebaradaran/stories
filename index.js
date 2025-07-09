@@ -36,14 +36,12 @@ function displayStory(storyFile) {
         story.appendChild(div);
 
         if (line.trim() === "") {
-          div.style.height = "1em";
+          div.innerHTML = "<hr />";
           continue; // Skip empty lines
         }
-        let btnRead = document.createElement("button");
-        btnRead.innerHTML = "🗣️";
-        div.appendChild(btnRead);
-        btnRead.addEventListener("click", () => speak(line));
-        div.addEventListener("click", () => speak(line));
+
+        let button = `<span onclick="speak('${line.trim()}')">🔊</span>`;
+        div.innerHTML = `${button} ${div.innerHTML}`;
       }
     });
 }

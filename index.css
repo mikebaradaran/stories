@@ -6,11 +6,18 @@ a {
 #content{
   font-size: 50px;
 }
-div:hover {
+p div:hover {
   background-color: lightcyan;
   /* font-weight: bold; */
   /* font-size: larger; */
   /* box-shadow: 2px 2px 2px black; */
+}
+p div span:hover {
+  box-shadow: 2px 2px 2px black;
+  background-color: white;
+  font-weight: bold;
+  font-size: larger;
+  cursor: pointer;
 }
 button{
   margin-left:10px;
