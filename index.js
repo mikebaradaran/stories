@@ -42,8 +42,9 @@ function displayStory(storyFile) {
 }
 
 function renderStory(data){
+  let linesForSpeech = removeEmojisAndQuotes(data).split("\n");
+
   let lines = data.split("\n");
-  let linesForSpeech = removeEmojis(data).split("\n");
 
   for (let i=0; i< lines.length; i++) {
     let line = lines[i];
@@ -79,7 +80,8 @@ function speak(text) {
   talk(text);
 }
 
-function removeEmojis(str) {
+function removeEmojisAndQuotes(str) {
+  str = str.replace(/"/g, '');
   return str.replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '');
 }
 
