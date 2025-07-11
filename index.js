@@ -23,13 +23,16 @@ function displayTitles(lines) {
 
 function displayStory(storyFile) {
   readFile(storyFile, renderStory);
-  
+
   // setup an event when any <span> is clicked on
-  story.addEventListener("click", function (event) {
-    if (event.target.tagName === "SPAN") {
-      speak(event.target.innerText);
-    }
-  });
+  if (!story.eventsApplied){
+    story.addEventListener("click", function (event) {
+      if (event.target.tagName === "SPAN") {
+        speak(event.target.innerText);
+      }
+    });
+    story.eventsApplied = true;
+  }
 }
 
 function renderStory(data) {
