@@ -25,7 +25,7 @@ function displayStory(storyFile) {
   readFile(storyFile, renderStory);
 
   // setup an event when any <span> is clicked on
-  if (!story.eventsApplied){
+  if (!story.eventsApplied) {
     story.addEventListener("click", function (event) {
       if (event.target.tagName === "SPAN") {
         speak(event.target.innerText);
@@ -35,11 +35,17 @@ function displayStory(storyFile) {
   }
 }
 
-function renderStory(data) {
-  story.innerHTML = ""; // Clear previous story
+//let linesForSpeech = "";
 
-  let linesForSpeech = removeEmojisAndQuotes(data).split("\n");
+function readAll() {
+  for (let line of story.linesForSpeech)
+    talk(line);
+}
+function renderStory(data) {
+  story.linesForSpeech = removeEmojisAndQuotes(data).split("\n");
   let lines = data.split("\n");
+  let btn = `<span2 onclick="readAll()">Read all lines</span2>`; // Clear previous story
+  story.innerHTML = btn; // Clear previous story
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
@@ -54,7 +60,7 @@ function renderStory(data) {
     line = makeEachWordIntoSpan(line);
     line = addIconTagAroundEmojis(line);
 
-    let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')">🔊</span2>`;
+    let button = `<span2 onclick="speak('${story.linesForSpeech[i].trim()}')">🔊</span2>`;
     div.innerHTML = `${button} ${line}`;
   }
 }
@@ -67,6 +73,8 @@ function makeEachWordIntoSpan(line) {
 
 function speak(text) {
   if (text === "") return; // Skip empty text
+  window.speechSynthesis.cancel();
+
   talk(text);
 }
 
@@ -89,7 +97,6 @@ function readFile(filename, callbackFunc) {
 
 function talk(text) {
   const msg = new SpeechSynthesisUtterance(text);
-
   // Get available voices
   const voices = speechSynthesis.getVoices();
 

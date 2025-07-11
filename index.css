@@ -19,10 +19,10 @@ p div span:hover, span2:hover {
   font-size: larger;
   cursor: pointer;
 }
-button{
+/* button{
   margin-left:10px;
   border-radius: 50%;
-}
+} */
 
 icon{
   font-size: x-large;
