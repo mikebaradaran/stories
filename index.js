@@ -1,6 +1,7 @@
 // File: index.js
+const storyBase = "/story_files/"
 
-fetch("titles.txt")
+fetch(storyBase + "titles.txt")
   .then((response) => response.text())
   .then((lines) => {
     displayTitles(lines);
@@ -25,32 +26,55 @@ function displayTitles(lines) {
 }
 
 function displayStory(storyFile) {
-  story.innerHTML = ""; // Clear previous story content
-  fetch(storyFile)
+  story.innerHTML = ""; // Clear previous story
+  fetch(storyBase + storyFile)
     .then((response) => response.text())
     .then((data) => {
-      lines = data.split("\n");
-      for (let line of lines) {
-        let div = document.createElement("div");
-        div.innerHTML = addIconTagaroundEmojis(line);
-        story.appendChild(div);
-
-        if (line.trim() === "") {
-          div.innerHTML = "<hr />";
-          continue; // Skip empty lines
-        }
-
-        let button = `<span onclick="speak('${line.trim()}')">🔊</span>`;
-        div.innerHTML = `${button} ${div.innerHTML}`;
-      }
+      renderStory(data);
     });
+
+  // setup an event when any <span> is clicked on
+  story.addEventListener("click", function (event) {
+    if (event.target.tagName === "SPAN") {
+      speak(event.target.innerText);
+    }
+  });
 }
 
+function renderStory(data){
+  let lines = data.split("\n");
+  let linesForSpeech = removeEmojis(data).split("\n");
+
+  for (let i=0; i< lines.length; i++) {
+    let line = lines[i];
+    let div = document.createElement("div");
+    story.appendChild(div);
+
+    if (line.trim() === "") {
+      div.innerHTML = "<hr />";
+      continue; // Skip empty lines
+    }
+
+    line = makeEachWordIntoSpan(line);
+    div.innerHTML = addIconTagAroundEmojis(line);
+
+    let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')">🔊</span2>`;
+    //let word = `<span onclick="sayTheNextWord()">⏭️</span>`;
+    // div.innerHTML = `${button} ${div.innerHTML} ${word}`;
+    div.innerHTML = `${button} ${div.innerHTML}`;
+  }
+}
+
+function makeEachWordIntoSpan(line) {
+  line = line.split(' ').map(word => `<span>${word} </span>`).join("");
+  return line;
+}
 
 function speak(text) {
   //text = text.split("<icon>")[0].trim();
-  text = text.replace(/<icon>.*?<\/icon>/g, '').trim(); // Remove <icon> tags""
-  text = removeEmojis(text)
+  // text = text.replace(/<icon>.*?<\/icon>/g, '').trim(); // Remove <icon> tags""
+  // text = text.replace(/<span>.*?<\/span>/g, '').trim(); // Remove <span> tags""
+  // text = removeEmojis(text);
   if (text === "") return; // Skip empty text
   talk(text);
 }
@@ -59,7 +83,7 @@ function removeEmojis(str) {
   return str.replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '');
 }
 
-function addIconTagaroundEmojis(text) {
+function addIconTagAroundEmojis(text) {
   return text.replace(/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu, '<icon>$&</icon>');
 }
 function talk(text) {

@@ -12,7 +12,7 @@ p div:hover {
   /* font-size: larger; */
   /* box-shadow: 2px 2px 2px black; */
 }
-p div span:hover {
+p div span:hover, span2:hover {
   box-shadow: 2px 2px 2px black;
   background-color: white;
   font-weight: bold;
