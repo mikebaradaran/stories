@@ -1,14 +1,10 @@
 // File: index.js
 const storyBase = "/story_files/"
 
-fetch(storyBase + "titles.txt")
-  .then((response) => response.text())
-  .then((lines) => {
-    displayTitles(lines);
-  });
+const container = document.getElementById("content");
+const story = document.getElementById("story");
 
-let container = document.getElementById("content");
-let story = document.getElementById("story");
+readFile("titles.txt", displayTitles);
 
 function displayTitles(lines) {
   lines = lines.split("\n");
@@ -26,13 +22,8 @@ function displayTitles(lines) {
 }
 
 function displayStory(storyFile) {
-  story.innerHTML = ""; // Clear previous story
-  fetch(storyBase + storyFile)
-    .then((response) => response.text())
-    .then((data) => {
-      renderStory(data);
-    });
-
+  readFile(storyFile, renderStory);
+  
   // setup an event when any <span> is clicked on
   story.addEventListener("click", function (event) {
     if (event.target.tagName === "SPAN") {
@@ -41,12 +32,13 @@ function displayStory(storyFile) {
   });
 }
 
-function renderStory(data){
-  let linesForSpeech = removeEmojisAndQuotes(data).split("\n");
+function renderStory(data) {
+  story.innerHTML = ""; // Clear previous story
 
+  let linesForSpeech = removeEmojisAndQuotes(data).split("\n");
   let lines = data.split("\n");
 
-  for (let i=0; i< lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
     let div = document.createElement("div");
     story.appendChild(div);
@@ -57,25 +49,20 @@ function renderStory(data){
     }
 
     line = makeEachWordIntoSpan(line);
-    div.innerHTML = addIconTagAroundEmojis(line);
+    line = addIconTagAroundEmojis(line);
 
     let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')">🔊</span2>`;
-    //let word = `<span onclick="sayTheNextWord()">⏭️</span>`;
-    // div.innerHTML = `${button} ${div.innerHTML} ${word}`;
-    div.innerHTML = `${button} ${div.innerHTML}`;
+    div.innerHTML = `${button} ${line}`;
   }
 }
 
+//----------------------------------------------------------------------
 function makeEachWordIntoSpan(line) {
   line = line.split(' ').map(word => `<span>${word} </span>`).join("");
   return line;
 }
 
 function speak(text) {
-  //text = text.split("<icon>")[0].trim();
-  // text = text.replace(/<icon>.*?<\/icon>/g, '').trim(); // Remove <icon> tags""
-  // text = text.replace(/<span>.*?<\/span>/g, '').trim(); // Remove <span> tags""
-  // text = removeEmojis(text);
   if (text === "") return; // Skip empty text
   talk(text);
 }
@@ -88,6 +75,15 @@ function removeEmojisAndQuotes(str) {
 function addIconTagAroundEmojis(text) {
   return text.replace(/(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu, '<icon>$&</icon>');
 }
+
+function readFile(filename, callbackFunc) {
+  fetch(storyBase + filename)
+    .then((response) => response.text())
+    .then((data) => {
+      callbackFunc(data);
+    });
+}
+
 function talk(text) {
   const msg = new SpeechSynthesisUtterance(text);
 
@@ -104,7 +100,7 @@ function talk(text) {
 
   // Optional settings
   msg.pitch = 1.1;  // slightly higher pitch
-  msg.rate = 1;     // speaking speed
+  msg.rate = 0.9;     // speaking speed
 
   speechSynthesis.speak(msg);
 }
@@ -113,6 +109,4 @@ function talk(text) {
 window.speechSynthesis.onvoiceschanged = () => {
   speechSynthesis.getVoices();  // Trigger loading voices
 };
-
-
 
