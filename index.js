@@ -4,6 +4,8 @@ const storyBase = "/story_files/"
 const container = document.getElementById("content");
 const story = document.getElementById("story");
 
+setupSpeech();
+
 readFile("titles.txt", displayTitles);
 
 function displayTitles(lines) {
@@ -35,12 +37,11 @@ function displayStory(storyFile) {
   }
 }
 
-//let linesForSpeech = "";
-
 function readAll() {
   for (let line of story.linesForSpeech)
     talk(line);
 }
+
 function renderStory(data) {
   story.linesForSpeech = removeEmojisAndQuotes(data).split("\n");
   let lines = data.split("\n");
@@ -94,10 +95,10 @@ function readFile(filename, callbackFunc) {
       callbackFunc(data);
     });
 }
+// ------------------Speech -----------
+const msg = new SpeechSynthesisUtterance();
 
-function talk(text) {
-  const msg = new SpeechSynthesisUtterance(text);
-  // Get available voices
+function setupSpeech() {
   const voices = speechSynthesis.getVoices();
 
   // Choose a female voice (you may want to fine-tune this)
@@ -108,11 +109,8 @@ function talk(text) {
     voice.name.toLowerCase().includes("zira")         // Example: Windows
   );
 
-  // Optional settings
   msg.pitch = 1.1;  // slightly higher pitch
   msg.rate = 0.9;     // speaking speed
-
-  speechSynthesis.speak(msg);
 }
 
 // Voices may not be loaded immediately
@@ -120,3 +118,7 @@ window.speechSynthesis.onvoiceschanged = () => {
   speechSynthesis.getVoices();  // Trigger loading voices
 };
 
+function talk(text) {
+  msg.text = text;
+  speechSynthesis.speak(msg);
+}
