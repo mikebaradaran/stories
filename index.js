@@ -4,11 +4,10 @@ const storyBase = "/story_files/"
 const container = document.getElementById("content");
 const story = document.getElementById("story");
 
-setupSpeech();
-
 readFile("titles.txt", displayTitles);
 
 function displayTitles(lines) {
+  setupSpeech();
   lines = lines.split("\n");
   container.innerHTML = ""; // Clear previous content
 
@@ -38,15 +37,16 @@ function displayStory(storyFile) {
 }
 
 function readAll() {
-  for (let line of story.linesForSpeech)
-    talk(line);
+  talk(story.rawData);
 }
 
 function renderStory(data) {
-  story.linesForSpeech = removeEmojisAndQuotes(data).split("\n");
+  story.rawData = removeEmojisAndQuotes(data)
+
   let lines = data.split("\n");
   let btn = `<span2 onclick="readAll()">Read all lines</span2>`; // Clear previous story
   story.innerHTML = btn; // Clear previous story
+  let linesForSpeech = story.rawData.split("\n");
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
@@ -61,7 +61,7 @@ function renderStory(data) {
     line = makeEachWordIntoSpan(line);
     line = addIconTagAroundEmojis(line);
 
-    let button = `<span2 onclick="speak('${story.linesForSpeech[i].trim()}')">🔊</span2>`;
+    let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')">🔊</span2>`;
     div.innerHTML = `${button} ${line}`;
   }
 }
@@ -96,9 +96,9 @@ function readFile(filename, callbackFunc) {
     });
 }
 // ------------------Speech -----------
-const msg = new SpeechSynthesisUtterance();
-
+let msg = 0;
 function setupSpeech() {
+  msg = new SpeechSynthesisUtterance();
   const voices = speechSynthesis.getVoices();
 
   // Choose a female voice (you may want to fine-tune this)
@@ -119,6 +119,8 @@ window.speechSynthesis.onvoiceschanged = () => {
 };
 
 function talk(text) {
+  if (!msg)
+    setupSpeech;
   msg.text = text;
   speechSynthesis.speak(msg);
 }
