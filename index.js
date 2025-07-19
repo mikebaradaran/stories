@@ -1,29 +1,31 @@
 // File: index.js
 const storyBase = "/story_files/"
-
-const container = document.getElementById("content");
 const story = document.getElementById("story");
 
-readFile("titles.txt", displayTitles);
+readFile("titles.txt", displayTitlesAsList);
 
-function displayTitles(lines) {
+function displayTitlesAsList(lines) {
   setupSpeech();
   lines = lines.split("\n");
-  container.innerHTML = ""; // Clear previous content
+
+  let selectTag = document.getElementById("titles");
 
   for (let index = 0; index < lines.length; index++) {
     line = lines[index].trim();
     if (line === "") continue; // Skip empty lines
-    let a = document.createElement("a");
     let x = lines[index].split("~");
-    a.innerText = x[1];
-    a.href = `javascript:displayStory('${x[0]}')`;
-    container.appendChild(a);
+    let optionTag = document.createElement("option");
+    optionTag.innerText = x[1];
+    selectTag.appendChild(optionTag);
   }
+  selectTag.addEventListener("change", (e) => {
+    displayStory(lines[e.target.selectedIndex]);
+  });
 }
 
 function displayStory(storyFile) {
-  readFile(storyFile, renderStory);
+  storyTitle = storyFile.split("~")[0];
+  readFile(storyTitle, renderStory);
 
   // setup an event when any <span> is clicked on
   if (!story.eventsApplied) {
@@ -37,15 +39,20 @@ function displayStory(storyFile) {
 }
 
 function readAll() {
-  talk(story.rawData);
+  story.stopFunc = speakLines(story.rawData);
+}
+
+function stopReadAll() {
+  showCurrentLine("");
+  window.speechSynthesis.cancel();
+  story.stopFunc();
 }
 
 function renderStory(data) {
+  story.innerHTML = "";
   story.rawData = removeEmojisAndQuotes(data)
 
   let lines = data.split("\n");
-  let btn = `<span2 onclick="readAll()">Read all lines</span2>`; // Clear previous story
-  story.innerHTML = btn; // Clear previous story
   let linesForSpeech = story.rawData.split("\n");
 
   for (let i = 0; i < lines.length; i++) {
@@ -75,7 +82,6 @@ function makeEachWordIntoSpan(line) {
 function speak(text) {
   if (text === "") return; // Skip empty text
   window.speechSynthesis.cancel();
-
   talk(text);
 }
 
@@ -95,6 +101,7 @@ function readFile(filename, callbackFunc) {
       callbackFunc(data);
     });
 }
+
 // ------------------Speech -----------
 let msg = 0;
 function setupSpeech() {
@@ -124,3 +131,36 @@ function talk(text) {
   msg.text = text;
   speechSynthesis.speak(msg);
 }
+
+function showCurrentLine(text) {
+  document.getElementById("currentLineDiv").innerText = text;
+}
+
+function speakLines(text) {
+  const lines = text.split("\n");
+  let cancelled = false;
+
+  function speakNext(i) {
+    const delay = 500;
+    if (cancelled || i >= lines.length) return;
+    showCurrentLine(lines[i]);
+    talk(lines[i]);
+    msg.onend = () => {
+      if (!cancelled)
+        setTimeout(() => speakNext(i + 1), delay);
+    };
+  }
+
+  speakNext(0);
+
+  // Return a stop function
+  return () => {
+    cancelled = true;
+    speechSynthesis.cancel(); // optional: stop current speech too
+  };
+}
+
+// function highlightNthLine(n, bk = "yellow") {
+//   const storyLines = document.querySelectorAll("#story.span2");
+//   storyLines[n].style.backgroundColor = bk;
+// }

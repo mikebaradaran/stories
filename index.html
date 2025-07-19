@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
 
-    <title>Stories</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="https://glitch.com/favicon.ico" />
 
-    <link rel="stylesheet" href="index.css" />
-    <script src="index.js" defer></script>
+  <title>Stories</title>
 
-  </head>
-  <body>
-    <div id="content"></div>
-    <p id="story"></p>
-  </body>
+  <link rel="stylesheet" href="index.css" />
+  <script src="index.js" defer></script>
+
+</head>
+
+<body>
+  <!-- <div id="content"></div> -->
+  <select id="titles"></select>
+  <spanBtn onclick="readAll()">▶️ all</spanBtn>
+  <spanBtn onclick="stopReadAll()">⏹️</spanBtn>
+  <div id='currentLineDiv'></div>
+  <p id="story"></p>
+</body>
+
 </html>
