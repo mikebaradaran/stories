@@ -33,11 +33,12 @@ function displayStory(storyFile) {
 }
 
 function readAll() {
+  displayCurrentLine(true);
   story.stopFunc = speakLines(story.rawData);
 }
 
 function stopReadAll() {
-  showCurrentLine("");
+  displayCurrentLine(false);
   window.speechSynthesis.cancel();
   story.stopFunc();
 }
@@ -99,6 +100,10 @@ function readFile(filename, callbackFunc) {
 function showCurrentLine(text) {
   document.getElementById("currentLineDiv").innerText = text;
 }
+function displayCurrentLine(showIt){
+  let tag = document.getElementById("currentLineDiv");
+  tag.style.display = (showIt) ? "block":"none";
+}
 
 // ------------------Speech -----------
 let msg;
@@ -133,10 +138,14 @@ function speakLines(text) {
   let cancelled = false;
 
   function speakNext(i) {
-    const delay = 500;
-    if (cancelled || i >= lines.length) return;
+    const delay = 200;
+    if (cancelled || i >= lines.length) {
+      displayCurrentLine(false);
+      return;
+    }
     showCurrentLine(lines[i]);
     talk(lines[i]);
+
     msg.onend = () => {
       if (!cancelled)
         setTimeout(() => speakNext(i + 1), delay);

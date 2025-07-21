@@ -37,4 +37,7 @@ icon {
 #currentLineDiv {
   font-size: larger;
   margin-top: 15px;
+  background-color: lightgoldenrodyellow;
+  height: 1em;
+  display:none;
 }
