@@ -5,7 +5,8 @@ const story = document.getElementById("story");
 readFile("titles.json", displayTitlesAsList);
 
 function displayTitlesAsList(lines) {
-  setupSpeech();
+  //setupSpeech();
+  chooseFemaleVoice();
   lines = JSON.parse(lines);
 
   let selectTag = document.getElementById("titles");
@@ -100,9 +101,9 @@ function readFile(filename, callbackFunc) {
 function showCurrentLine(text) {
   document.getElementById("currentLineDiv").innerText = text;
 }
-function displayCurrentLine(showIt){
+function displayCurrentLine(showIt) {
   let tag = document.getElementById("currentLineDiv");
-  tag.style.display = (showIt) ? "block":"none";
+  tag.style.display = (showIt) ? "block" : "none";
 }
 
 // ------------------Speech -----------
@@ -118,6 +119,7 @@ function setupSpeech() {
       voice.name.toLowerCase().includes("female") ||
       voice.name.toLowerCase().includes("woman") ||
       voice.name.toLowerCase().includes("samantha") ||
+      voice.name.toLowerCase().includes("Karen") ||
       voice.name.toLowerCase().includes("zira")
     );
 
@@ -157,4 +159,27 @@ function speakLines(text) {
     cancelled = true;
     speechSynthesis.cancel(); // optional: stop current speech too
   };
+}
+
+
+function chooseFemaleVoice() {
+  msg = new SpeechSynthesisUtterance();
+
+  const voices = speechSynthesis.getVoices();
+  if (!voices.length) {
+    return setTimeout(chooseFemaleVoice, 100);
+  }
+
+  msg.voice = voices.find(voice =>
+    /samantha|karen|zira|female|woman/i.test(voice.name)
+  ) || voices.find(voice => voice.gender === 'female') || voices[0]; // fallback
+  msg.pitch = 1.1;
+  msg.rate = 0.9;
+
+}
+
+if (speechSynthesis.getVoices().length) {
+  chooseFemaleVoice();
+} else {
+  speechSynthesis.onvoiceschanged = chooseFemaleVoice;
 }
