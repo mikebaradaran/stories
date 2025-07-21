@@ -2,25 +2,20 @@
 const storyBase = "/story_files/"
 const story = document.getElementById("story");
 
-readFile("titles.txt", displayTitlesAsList);
+readFile("titles.json", displayTitlesAsList);
 
 function displayTitlesAsList(lines) {
   setupSpeech();
-  lines = lines.split("\n");
+  lines = JSON.parse(lines);
 
   let selectTag = document.getElementById("titles");
 
-  for (let index = 0; index < lines.length; index++) {
-    line = lines[index].trim();
-    if (line === "") continue; // Skip empty lines
-    let x = lines[index].split("~");
+  for (let line of lines) {
     let optionTag = document.createElement("option");
-    optionTag.innerText = x[1];
+    optionTag.innerText = line.title;
     selectTag.appendChild(optionTag);
   }
-  selectTag.addEventListener("change", (e) => {
-    displayStory(lines[e.target.selectedIndex]);
-  });
+  selectTag.onchange = () => { displayStory(lines[selectTag.selectedIndex].file); };
 }
 
 function displayStory(storyFile) {
@@ -28,13 +23,13 @@ function displayStory(storyFile) {
   readFile(storyTitle, renderStory);
 
   // setup an event when any <span> is clicked on
-  if (!story.eventsApplied) {
+  if (!story._listenerAttached) {   // avoid attaching every time a new story is loaded
     story.addEventListener("click", function (event) {
       if (event.target.tagName === "SPAN") {
         speak(event.target.innerText);
       }
     });
-    story.eventsApplied = true;
+    story._listenerAttached = true;
   }
 }
 
@@ -68,7 +63,7 @@ function renderStory(data) {
     line = makeEachWordIntoSpan(line);
     line = addIconTagAroundEmojis(line);
 
-    let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')">🔊</span2>`;
+    let button = `<span2 onclick="speak('${linesForSpeech[i].trim()}')"  aria-label="Read line aloud">🔊</span2>`;
     div.innerHTML = `${button} ${line}`;
   }
 }
@@ -102,38 +97,36 @@ function readFile(filename, callbackFunc) {
     });
 }
 
-// ------------------Speech -----------
-let msg = 0;
-function setupSpeech() {
-  msg = new SpeechSynthesisUtterance();
-  const voices = speechSynthesis.getVoices();
-
-  // Choose a female voice (you may want to fine-tune this)
-  msg.voice = voices.find(voice =>
-    voice.name.toLowerCase().includes("female") ||
-    voice.name.toLowerCase().includes("woman") ||
-    voice.name.toLowerCase().includes("samantha") ||  // Example: macOS
-    voice.name.toLowerCase().includes("zira")         // Example: Windows
-  );
-
-  msg.pitch = 1.1;  // slightly higher pitch
-  msg.rate = 0.9;     // speaking speed
+function showCurrentLine(text) {
+  document.getElementById("currentLineDiv").innerText = text;
 }
 
-// Voices may not be loaded immediately
-window.speechSynthesis.onvoiceschanged = () => {
-  speechSynthesis.getVoices();  // Trigger loading voices
-};
+// ------------------Speech -----------
+let msg;
+
+function setupSpeech() {
+  msg = new SpeechSynthesisUtterance();
+
+  window.speechSynthesis.onvoiceschanged = () => {
+    const voices = speechSynthesis.getVoices();
+
+    msg.voice = voices.find(voice =>
+      voice.name.toLowerCase().includes("female") ||
+      voice.name.toLowerCase().includes("woman") ||
+      voice.name.toLowerCase().includes("samantha") ||
+      voice.name.toLowerCase().includes("zira")
+    );
+
+    msg.pitch = 1.1;
+    msg.rate = 0.9;
+  };
+}
 
 function talk(text) {
   if (!msg)
     setupSpeech;
   msg.text = text;
   speechSynthesis.speak(msg);
-}
-
-function showCurrentLine(text) {
-  document.getElementById("currentLineDiv").innerText = text;
 }
 
 function speakLines(text) {
@@ -150,17 +143,10 @@ function speakLines(text) {
         setTimeout(() => speakNext(i + 1), delay);
     };
   }
-
   speakNext(0);
-
   // Return a stop function
   return () => {
     cancelled = true;
     speechSynthesis.cancel(); // optional: stop current speech too
   };
 }
-
-// function highlightNthLine(n, bk = "yellow") {
-//   const storyLines = document.querySelectorAll("#story.span2");
-//   storyLines[n].style.backgroundColor = bk;
-// }

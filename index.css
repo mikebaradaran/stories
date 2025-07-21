@@ -3,35 +3,38 @@ a {
   margin: 5px;
   font-size: large;
 }
-#content{
+
+#content {
   font-size: 50px;
 }
+
 p div:hover {
   background-color: lightcyan;
-  /* font-weight: bold; */
-  /* font-size: larger; */
-  /* box-shadow: 2px 2px 2px black; */
 }
-p div span:hover, span2:hover ,spanBtn:hover{
+
+p div span:hover,
+span2:hover,
+spanBtn:hover {
   box-shadow: 2px 2px 2px black;
   background-color: white;
   font-weight: bold;
   font-size: larger;
   cursor: pointer;
 }
-spanBtn, #currentLineDiv{
+
+spanBtn,
+#currentLineDiv {
   margin-right: 10px;
-  padding:3px;
-  /* border:1px solid grey; */
+  padding: 3px;
   box-shadow: 2px 2px 3px grey;
   border-radius: 3px;
 }
-icon{
+
+icon {
   font-size: x-large;
 }
 
-#currentLineDiv{
+#currentLineDiv {
   font-size: larger;
-  margin-top:15px;
-  /* box-shadow: 2px 2px 3px lightblue; */
+  margin-top: 15px;
 }
