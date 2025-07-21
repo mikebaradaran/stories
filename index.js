@@ -19,8 +19,7 @@ function displayTitlesAsList(lines) {
 }
 
 function displayStory(storyFile) {
-  storyTitle = storyFile.split("~")[0];
-  readFile(storyTitle, renderStory);
+  readFile(storyFile, renderStory);
 
   // setup an event when any <span> is clicked on
   if (!story._listenerAttached) {   // avoid attaching every time a new story is loaded
