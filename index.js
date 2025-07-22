@@ -161,7 +161,6 @@ function speakLines(text) {
   };
 }
 
-
 function chooseFemaleVoice() {
   msg = new SpeechSynthesisUtterance();
 
@@ -171,7 +170,7 @@ function chooseFemaleVoice() {
   }
 
   msg.voice = voices.find(voice =>
-    /samantha|karen|zira|female|woman/i.test(voice.name)
+    /serena|samantha|karen|zira|female|woman/i.test(voice.name)
   ) || voices.find(voice => voice.gender === 'female') || voices[0]; // fallback
   msg.pitch = 1.1;
   msg.rate = 0.9;
