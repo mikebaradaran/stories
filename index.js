@@ -44,6 +44,10 @@ function stopReadAll() {
 
 let stopStartReadingAll = true;
 function stopStartReadingAll_Buttonclick(button){
+  if(story.innerHTML == ""){
+    speak("Please select a story to read!");
+    return;
+  }
   stopStartReadingAll=!stopStartReadingAll;
   if(stopStartReadingAll===false){
     button.innerText += " Stop";
@@ -57,6 +61,10 @@ function stopStartReadingAll_Buttonclick(button){
 
 let stopReadingEachWord = true;
 function readAndHighlightStory_Buttonclick(button){
+  if(story.innerHTML == ""){
+    speak("Please select a story to read!");
+    return;
+  }
   stopReadingEachWord=!stopReadingEachWord;
   if(!stopReadingEachWord){
     readAndHighlightStory();
