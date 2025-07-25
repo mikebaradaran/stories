@@ -1,12 +1,11 @@
 // File: index.js
-const storyBase = "/story_files/"
+const storyBase = "story_files/"
 const story = document.getElementById("story");
 
 readFile("titles.json", displayTitlesAsList);
 
 function displayTitlesAsList(lines) {
-  //setupSpeech();
-  chooseFemaleVoice();
+  setupSpeech();
   lines = JSON.parse(lines);
 
   let selectTag = document.getElementById("titles");
@@ -34,14 +33,13 @@ function displayStory(storyFile) {
 }
 
 function readAll() {
-  displayCurrentLine(true);
   story.stopFunc = speakLines(story.rawData);
 }
 
 function stopReadAll() {
-  displayCurrentLine(false);
+  showCurrentLine("hideit");
   window.speechSynthesis.cancel();
-  story.stopFunc();
+  story.stopFunc?.();
 }
 
 function renderStory(data) {
@@ -75,12 +73,6 @@ function makeEachWordIntoSpan(line) {
   return line;
 }
 
-function speak(text) {
-  if (text === "") return; // Skip empty text
-  window.speechSynthesis.cancel();
-  talk(text);
-}
-
 function removeEmojisAndQuotes(str) {
   str = str.replace(/"/g, '');
   return str.replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '');
@@ -99,15 +91,24 @@ function readFile(filename, callbackFunc) {
 }
 
 function showCurrentLine(text) {
-  document.getElementById("currentLineDiv").innerText = text;
-}
-function displayCurrentLine(showIt) {
-  let tag = document.getElementById("currentLineDiv");
-  tag.style.display = (showIt) ? "block" : "none";
+  let div = document.getElementById("currentLineDiv");
+  div.style.display = (text === "hideit") ? "none" : "block";
+  div.innerText = text;
 }
 
-// ------------------Speech -----------
+function isEmoji(char) {
+  const emojiRegex = /\p{Emoji}/u;
+  return emojiRegex.test(char);
+}
+// ------------------Speech --------------------------------------
 let msg;
+
+function speak(text) {
+  if (text === "") return; // Skip empty text
+  stopReadAll();
+  msg.text = text;
+  speechSynthesis.speak(msg);
+}
 
 function setupSpeech() {
   msg = new SpeechSynthesisUtterance();
@@ -128,13 +129,6 @@ function setupSpeech() {
   };
 }
 
-function talk(text) {
-  if (!msg)
-    setupSpeech;
-  msg.text = text;
-  speechSynthesis.speak(msg);
-}
-
 function speakLines(text) {
   const lines = text.split("\n");
   let cancelled = false;
@@ -142,17 +136,19 @@ function speakLines(text) {
   function speakNext(i) {
     const delay = 200;
     if (cancelled || i >= lines.length) {
-      displayCurrentLine(false);
+      showCurrentLine("hideit");
       return;
     }
     showCurrentLine(lines[i]);
-    talk(lines[i]);
+    msg.text = lines[i];
+    speechSynthesis.speak(msg);
 
     msg.onend = () => {
       if (!cancelled)
         setTimeout(() => speakNext(i + 1), delay);
     };
   }
+
   speakNext(0);
   // Return a stop function
   return () => {
@@ -161,24 +157,40 @@ function speakLines(text) {
   };
 }
 
-function chooseFemaleVoice() {
-  msg = new SpeechSynthesisUtterance();
-
-  const voices = speechSynthesis.getVoices();
-  if (!voices.length) {
-    return setTimeout(chooseFemaleVoice, 100);
+//-------------------------------------------
+async function readWordAndWait(word) {
+  speak(word);
+  while (speechSynthesis.speaking || speechSynthesis.pending) {
+    await new Promise(r => setTimeout(r, 100));
   }
-
-  msg.voice = voices.find(voice =>
-    /serena|samantha|karen|zira|female|woman/i.test(voice.name)
-  ) || voices.find(voice => voice.gender === 'female') || voices[0]; // fallback
-  msg.pitch = 1.1;
-  msg.rate = 0.9;
-
 }
 
-if (speechSynthesis.getVoices().length) {
-  chooseFemaleVoice();
-} else {
-  speechSynthesis.onvoiceschanged = chooseFemaleVoice;
+async function readAndHighlightEveryWord(divID) {
+  let div = document.getElementById(divID);
+  let startText = div.innerHTML;
+  div.innerHTML = makeEachWordIntoSpan(div.innerHTML);
+  let spans = document.querySelectorAll(`#${divID} span`);
+  for (let span of spans) {
+    span.classList.toggle("highlight");;
+    await readWordAndWait(span.innerText);
+    span.classList.toggle("highlight");;
+  }
+  div.innerHTML = startText;
 }
+
+let stopMe = false;
+async function readAndHighlightStory() {
+  stopMe=false;
+  let spans = document.querySelectorAll(`#story span`);
+  for (let span of spans) {
+    if(isEmoji(span.innerText))
+      continue;
+    span.classList.toggle("highlight");
+    await readWordAndWait(span.innerText);
+    console.log(span.innerText);
+    span.classList.toggle("highlight");
+    if(stopMe) break;
+  }
+}
+
+
