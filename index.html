@@ -15,10 +15,10 @@
 
 <body>
   <select id="titles"></select>
-  <spanBtn onclick="readAll()">▶️ all</spanBtn>
-  <spanBtn onclick="stopReadAll()">⏹️</spanBtn>
-  <spanBtn onclick="readAndHighlightStory()" title="Read every word">📖</spanBtn>
-  <spanBtn onclick="stopMe = true">⏹️</spanBtn>
+  <!-- <spanBtn onclick="readAll(this)">▶️</spanBtn> -->
+  <spanBtn onclick="stopStartReadingAll_Buttonclick(this)" title="Read the entire story">▶️</spanBtn>
+  <!-- <spanBtn onclick="stopReadAll()">⏹️</spanBtn> -->
+  <spanBtn onclick="readAndHighlightStory_Buttonclick(this)" title="Read every word">📖</spanBtn>
   <div id='currentLineDiv'></div>
   <p id="story"></p>
   

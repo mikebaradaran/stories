@@ -42,6 +42,31 @@ function stopReadAll() {
   story.stopFunc?.();
 }
 
+let stopStartReadingAll = true;
+function stopStartReadingAll_Buttonclick(button){
+  stopStartReadingAll=!stopStartReadingAll;
+  if(stopStartReadingAll===false){
+    button.innerText += " Stop";
+    readAll();
+  }
+  else{
+    stopReadAll();
+    button.innerText = button.innerText.replace("Stop","");
+  }
+}
+
+let stopReadingEachWord = true;
+function readAndHighlightStory_Buttonclick(button){
+  stopReadingEachWord=!stopReadingEachWord;
+  if(!stopReadingEachWord){
+    readAndHighlightStory();
+    button.innerText += " Stop";
+  }
+  else 
+    button.innerText = button.innerText.replace("Stop","");
+}
+
+
 function renderStory(data) {
   story.innerHTML = "";
   story.rawData = removeEmojisAndQuotes(data)
@@ -178,19 +203,18 @@ async function readAndHighlightEveryWord(divID) {
   div.innerHTML = startText;
 }
 
-let stopMe = false;
 async function readAndHighlightStory() {
-  stopMe=false;
   let spans = document.querySelectorAll(`#story span`);
   for (let span of spans) {
-    if(isEmoji(span.innerText))
-      continue;
+    if(isEmoji(span.innerText)) continue;
     span.classList.toggle("highlight");
     await readWordAndWait(span.innerText);
-    console.log(span.innerText);
     span.classList.toggle("highlight");
-    if(stopMe) break;
+    if(stopReadingEachWord) break;
   }
 }
+
+
+
 
 
